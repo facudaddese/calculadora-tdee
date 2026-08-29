@@ -1,11 +1,11 @@
-type Action = {};
+// type Action = {};
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "":
-      break;
+// const reducer = (state, action) => {
+//   switch (action.type) {
+//     case "":
+//       break;
 
-    default:
-      return state;
-  }
-};
+//     default:
+//       return state;
+//   }
+// };
