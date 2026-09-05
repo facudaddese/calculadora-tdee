@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { ResultsData } from "../../types/Types";
 import { calculateMacros } from "../utils/Calculations";
 import Goals from "../goals/Goals";
-import MacrosChart from "../macrosChart/MacrosChart";
+import MacrosChart from "../macros-chart/MacrosChart";
 
 type Objetivo = "bajar" | "mantener" | "subir";
 
