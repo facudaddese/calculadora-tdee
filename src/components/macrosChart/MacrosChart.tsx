@@ -11,7 +11,7 @@ ChartJS.register(ArcElement, Tooltip);
 
 interface MacrosChartProps {
   calorias: number;
-  proteinas: number; // gramos
+  proteinas: number;
   grasas: number;
   carbohidratos: number;
 }

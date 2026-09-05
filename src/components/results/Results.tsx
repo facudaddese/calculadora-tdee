@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ResultsData } from "../../types/Types";
 import { calculateMacros } from "../utils/Calculations";
 import Goals from "../goals/Goals";
@@ -23,11 +23,31 @@ interface ResultsProps {
 }
 
 const Results = ({ results }: ResultsProps) => {
-  const [objetivo, setObjetivo] = useState<Objetivo>("mantener");
+  const [objetivo, setObjetivo] = useState<Objetivo>(() => {
+    const stored = localStorage.getItem("objetivo");
+    return stored ? (JSON.parse(stored) as Objetivo) : "mantener";
+  });
+  const resultsRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    localStorage.setItem("objetivo", JSON.stringify(objetivo));
+  }, [objetivo]);
+
+  useEffect(() => {
+    if (results) {
+      resultsRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [results]);
 
   return (
     results && (
-      <section className="flex justify-center items-center flex-col py-7">
+      <section
+        ref={resultsRef}
+        className="flex justify-center items-center flex-col py-7"
+      >
         <h2 className="text-(length:--secondary-text) font-extrabold">
           Tus Resultados
         </h2>

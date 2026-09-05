@@ -204,7 +204,7 @@ const Form = ({ state, dispatchCalculate, dispatchReset }: FormProps) => {
           </div>
         )}
         <button
-          className={`bg-emerald-500 rounded-[10px] p-1.5 w-full text-white font-semibold disabled:opacity-25 ${isInvalid() ? "cursor-not-allowed" : "cursor-pointer transition-transform duration-300 ease-in-out hover:-translate-y-0.5 hover:bg-emerald-600"}`}
+        className={`bg-emerald-500 rounded-[10px] p-1.5 w-full text-white font-semibold disabled:opacity-25 ${isInvalid() ? "cursor-not-allowed" : "cursor-pointer transition-transform duration-300 ease-in-out hover:-translate-y-0.5 hover:bg-emerald-600 focus:outline-none focus:border focus:border-emerald-600"}`}
           disabled={isInvalid()}
         >
           Calcular TDEE

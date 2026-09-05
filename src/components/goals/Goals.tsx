@@ -5,7 +5,8 @@ interface GoalsProps {
   onChange: (objetivo: Objetivo) => void;
 }
 
-const styleBtn = "font-bold rounded-2xl py-3 px-5 cursor-pointer w-full md:w-45";
+const styleBtn =
+  "font-bold rounded-2xl py-3 px-5 cursor-pointer w-full md:w-45";
 
 const Goals = ({ objetivo, onChange }: GoalsProps) => {
   return (
