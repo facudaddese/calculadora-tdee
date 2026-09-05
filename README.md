@@ -20,10 +20,10 @@ Aplicación web que calcula el Gasto Energético Total Diario (TDEE), el Índice
 
 -   **React** + **TypeScript**
 -   **useReducer** para el manejo del estado de cálculo
--   **Custom hooks** (`useForm`, `useCalculator`) para separar la lógica de UI del estado
--   **Tailwind CSS v4**
+-   **Custom hooks** (`useForm`, `useCalculator`)
+-   **Tailwind CSS**
 -   **Chart.js** + **react-chartjs-2** para el gráfico de macros (con un plugin custom para renderizar el texto centrado dentro del donut)
--   **localStorage** para persistencia sin backend
+-   **localStorage**
 
 ## Autor
 
