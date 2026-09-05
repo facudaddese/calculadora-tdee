@@ -1,11 +1,11 @@
 const styleBtn =
-  "border border-white bg-white rounded-2xl py-2 px-5 cursor-pointer w-40";
+  "border border-white bg-white rounded-2xl py-2 px-5 cursor-pointer w-full md:w-40";
 
 const Goals = () => {
   return (
-    <section className="pt-5 text-center w-full md:w-130">
+    <section className="py-7 text-center px-5">
       <h3 className="text-gray-500/80 font-semibold">Elige tu objetivo</h3>
-      <div className="flex items-center justify-around flex-wrap my-5 py-2 px-2 gap-5 rounded-2xl bg-gray-100/50 md:flex-nowrap">
+      <div className="flex items-center justify-around flex-wrap my-5 p-3 gap-5 rounded-2xl bg-gray-100/50 md:flex-nowrap">
         <button
           className={`${styleBtn} text-red-600 hover:border hover:border-red-300`}
         >

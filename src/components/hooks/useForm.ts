@@ -1,13 +1,10 @@
 import { useState } from "react";
+import type { DataForm } from "../../types/Types";
 
-export const useForm = () => {
-  const [input, setInput] = useState({
-    edad: 0,
-    peso: 0,
-    altura: 0,
-    actividad: "",
-    grasaCorporal: 0,
-  });
+export const useForm = (
+  initialForm = { age: "", weight: "", height: "", activity: "", bodyFat: "" },
+) => {
+  const [input, setInput] = useState<DataForm>(initialForm);
 
   const handleInput = (
     e:
@@ -17,5 +14,5 @@ export const useForm = () => {
     setInput((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
-  return { input, handleInput };
+  return { input, setInput, handleInput };
 };
