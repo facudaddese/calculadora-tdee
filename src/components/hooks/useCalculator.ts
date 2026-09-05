@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from "react";
 import type { Data, State } from "../../types/Types";
-import { initialState, reducer } from "../../reducers/useReducer";
+import { initialState, reducer } from "../../reducers/reducer";
 
 
 export const useCalculator = () => {
