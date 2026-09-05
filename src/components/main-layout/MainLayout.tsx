@@ -1,14 +1,17 @@
-import { useReducer } from "react";
-import { initialState, reducer } from "../../reducers/useReducer";
 import Form from "../form/Form";
+import { useCalculator } from "../hooks/useCalculator";
 import Results from "../results/Results";
 
 const MainLayout = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { state, dispatchCalculate, dispatchReset } = useCalculator();
 
   return (
     <main className="bg-gray-50/50">
-      <Form dispatch={dispatch} />
+      <Form
+        state={state.data}
+        dispatchCalculate={dispatchCalculate}
+        dispatchReset={dispatchReset}
+      />
       <Results results={state.result} />
     </main>
   );

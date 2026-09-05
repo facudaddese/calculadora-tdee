@@ -1,17 +1,30 @@
+import { useState } from "react";
 import type { ResultsData } from "../../types/Types";
+import { calculateMacros } from "../utils/Calculations";
 import Goals from "../goals/Goals";
+import MacrosChart from "../macrosChart/MacrosChart";
+
+type Objetivo = "bajar" | "mantener" | "subir";
+
+const AJUSTE: Record<Objetivo, number> = {
+  bajar: -500,
+  mantener: 0,
+  subir: 500,
+};
 
 const styleDivs =
-  "flex flex-col py-2 justify-center items-center rounded-2xl w-55 h-37";
-const styleTitle = "text-[15px] font-semibold";
+  "flex flex-col py-2 justify-center items-center rounded-2xl w-60 h-37";
+const styleTitle = "text-[15px] font-semibold text-center";
 const styleStrong = "font-extrabold text-[35px] text-center";
-const styleSpan = "text-[13px]";
+const styleSpan = "text-[13px] text-center";
 
 interface ResultsProps {
   results: ResultsData | null;
 }
 
 const Results = ({ results }: ResultsProps) => {
+  const [objetivo, setObjetivo] = useState<Objetivo>("mantener");
+
   return (
     results && (
       <section className="flex justify-center items-center flex-col py-7">
@@ -31,14 +44,18 @@ const Results = ({ results }: ResultsProps) => {
           </div>
           {/* IMC */}
           <div
-            className={`${styleDivs} border ${results.categoryImc === "Obese" ? "text-red-400 bg-red-200/20" : results.categoryImc === "Overweight" ? "text-amber-400 bg-amber-200/20" : results.categoryImc === "Normal" ? "text-green-400 bg-green-200/20" : results.categoryImc === "Underweight" && "text-orange-400 bg-orange-200/20"}`}
+            className={`${styleDivs} border ${results.categoryImc === "Obesidad" ? "text-red-400 bg-red-100/10" : results.categoryImc === "Sobrepeso" ? "text-amber-400 bg-amber-100/10" : results.categoryImc === "Normal" ? "text-green-400 bg-green-100/10" : results.categoryImc === "Underweight" && "text-blue-400 bg-blue-100/10"}`}
           >
-            <h3 className={`${styleTitle} text-gray-600`}>IMC</h3>
+            <h3
+              className={`${styleTitle} ${results.categoryImc === "Obesidad" ? "text-red-600 " : results.categoryImc === "Sobrepeso" ? "text-amber-600 " : results.categoryImc === "Normal" ? "text-green-600 " : results.categoryImc === "Underweight" && "text-blue-400 "}`}
+            >
+              IMC
+            </h3>
             <strong className={`${styleStrong} text-gray-600`}>
               {Math.round(results.imc)}
             </strong>
             <span
-              className={`${styleSpan} ${results.categoryImc === "Obese" ? "text-red-600 " : results.categoryImc === "Overweight" ? "text-amber-600 " : results.categoryImc === "Normal" ? "text-green-600 " : results.categoryImc === "Underweight" && "text-orange-400 "} `}
+              className={`${styleSpan} ${results.categoryImc === "Obesidad" ? "text-red-600 " : results.categoryImc === "Sobrepeso" ? "text-amber-600 " : results.categoryImc === "Normal" ? "text-green-600 " : results.categoryImc === "Underweight" && "text-blue-400 "} `}
             >
               {results.categoryImc}
             </span>
@@ -50,12 +67,27 @@ const Results = ({ results }: ResultsProps) => {
             <h3 className={`${styleTitle} text-violet-500`}>PESO IDEAL</h3>
             <strong
               className={`${styleStrong} text-gray-600`}
-            >{`${results.idealWeight.min.toFixed(1)} - ${results.idealWeight.max.toFixed(1)}`}</strong>
+            >{`${results.idealWeight.min.toFixed(1)}-${results.idealWeight.max.toFixed(1)}`}</strong>
             <span className={`${styleSpan} text-violet-500`}>kg</span>
           </div>
         </div>
         {/* Goals */}
-        <Goals />
+        <Goals objetivo={objetivo} onChange={setObjetivo} />
+        {/* Macros */}
+        {(() => {
+          const caloriasObjetivo = Math.round(results.tdee) + AJUSTE[objetivo];
+          const macros = calculateMacros(caloriasObjetivo);
+          return (
+            <div className="w-full max-w-3xl px-5">
+              <MacrosChart
+                calorias={caloriasObjetivo}
+                proteinas={macros.proteinas}
+                grasas={macros.grasas}
+                carbohidratos={macros.carbohidratos}
+              />
+            </div>
+          );
+        })()}
       </section>
     )
   );

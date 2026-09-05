@@ -2,6 +2,7 @@ import {
   calculateBMR,
   calculateIdealWeight,
   calculateIMC,
+  calculateMacros,
   calculateTDEE,
   categoryIMC,
 } from "../components/utils/Calculations";
@@ -11,7 +12,7 @@ export type Action = { type: "calculate"; payload: Data } | { type: "reset" };
 
 export const initialState: State = {
   data: {
-    gender: "hombre",
+    gender: "",
     age: "",
     weight: "",
     height: "",
@@ -26,6 +27,8 @@ export const reducer = (state: State, action: Action): State => {
     case "calculate": {
       const { weight, height, age, activity, gender } = action.payload;
 
+      if (gender === "") return state;
+
       const calculateImc = calculateIMC(Number(weight), Number(height));
       const calculateBmr = calculateBMR(
         gender,
@@ -34,6 +37,7 @@ export const reducer = (state: State, action: Action): State => {
         Number(age),
       );
       const calculateTdee = calculateTDEE(calculateBmr, Number(activity));
+      const macros = calculateMacros(calculateTdee);
       const calculateIdealW = calculateIdealWeight(Number(height), gender);
 
       return {
@@ -43,6 +47,7 @@ export const reducer = (state: State, action: Action): State => {
           imc: calculateImc,
           categoryImc: categoryIMC(calculateImc),
           idealWeight: calculateIdealW,
+          macros,
         },
       };
     }

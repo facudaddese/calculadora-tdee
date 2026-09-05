@@ -1,7 +1,6 @@
-import { useState, type Dispatch } from "react";
+import { useState } from "react";
 import { useForm } from "../hooks/useForm";
-import type { Activity, GenderInput } from "../../types/Types";
-import type { Action } from "../../reducers/useReducer";
+import type { Activity, Data, DataForm, Gender } from "../../types/Types";
 
 const styleGender = "text-center border rounded-2xl p-5 w-full cursor-pointer";
 const styleInput =
@@ -10,20 +9,22 @@ const styleDiv = "flex flex-col w-full";
 const styleLabel = "text-gray-500/80 font-semibold text-[14px]";
 
 interface FormProps {
-  dispatch: Dispatch<Action>;
+  state: Data | null;
+  dispatchCalculate: (payload: Data) => void;
+  dispatchReset: () => void;
 }
 
-const Form = ({ dispatch }: FormProps) => {
+const Form = ({ state, dispatchCalculate, dispatchReset }: FormProps) => {
   const [view, setView] = useState(false);
-  const [gender, setGender] = useState<GenderInput>("");
-  const initialForm = {
-    age: "",
-    weight: "",
-    height: "",
-    activity: "",
-    bodyFat: "",
+  const [gender, setGender] = useState<Gender>(state?.gender ?? "");
+  const initialForm: DataForm = {
+    age: state?.age ?? "",
+    weight: state?.weight ?? "",
+    height: state?.height ?? "",
+    activity: state?.activity ?? "",
+    bodyFat: state?.bodyFat ?? "",
   };
-  const { input, setInput, handleInput } = useForm(initialForm);
+  const { input, handleInput, emptyForm } = useForm(initialForm);
   const { age, weight, height, activity, bodyFat } = input;
 
   const isInvalid = () => {
@@ -49,18 +50,16 @@ const Form = ({ dispatch }: FormProps) => {
 
   const handleSubmit: React.SubmitEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    if (gender !== "")
-      dispatch({
-        type: "calculate",
-        payload: { gender, age, weight, height, activity, bodyFat },
-      });
+    if (gender !== "") {
+      dispatchCalculate({ gender, age, weight, height, activity, bodyFat });
+    }
   };
 
   const handleReset = () => {
-    dispatch({ type: "reset" });
     setGender("");
     setView(false);
-    setInput(initialForm);
+    emptyForm();
+    dispatchReset();
   };
 
   return (
